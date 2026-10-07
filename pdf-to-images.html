@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to Images - Extract PDF Pages as PNG & JPG Online Free</title>
+  <meta name="description" content="Export each page of your PDF document into crisp, high-resolution PNG or JPG images. Fast & private.">
+
+  <!-- Open Graph / Facebook Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PDF Tools">
+  <meta property="og:title" content="PDF to Images - Extract PDF Pages as PNG & JPG Online Free">
+  <meta property="og:description" content="Export each page of your PDF document into crisp, high-resolution PNG or JPG images. Fast & private.">
+  <meta property="og:image" content="og-image.png">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PDF to Images - Extract PDF Pages as PNG & JPG Online Free">
+  <meta name="twitter:description" content="Export each page of your PDF document into crisp, high-resolution PNG or JPG images. Fast & private.">
+  <meta name="twitter:image" content="og-image.png">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">PDF Tools</span>
+          <span class="brand-subtitle">PDF to Images</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a href="index.html" class="nav-link">All Tools</a>
+        <button id="themeToggleBtn" class="btn-icon" aria-label="Toggle dark mode">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="tool-view-wrapper">
+      
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>PDF to Images</span>
+      </nav>
+
+      <!-- Tool Header -->
+      <div class="tool-header-block">
+        <div class="tool-badge-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 16l4.586-4.586a2 2 0 0 1 2.828 0L16 16m-2-2l1.586-1.586a2 2 0 0 1 2.828 0L20 14m-6-6h.01M6 20h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+          </svg>
+        </div>
+        <h1>Convert PDF to Images</h1>
+        <p>Render every page of your PDF file into standalone PNG or JPG images with custom resolution.</p>
+      </div>
+
+      <!-- Drag & Drop Area -->
+      <div class="dropzone-container" id="dropzone">
+        <div class="dropzone-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <h3 class="dropzone-title">Drop your PDF file here</h3>
+        <p class="dropzone-hint">or click to browse from your device</p>
+        <button type="button" class="btn-browse" onclick="document.getElementById('fileInput').click()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Choose PDF File
+        </button>
+        <input type="file" id="fileInput" class="file-input-hidden" accept="application/pdf,.pdf">
+      </div>
+
+      <!-- Conversion Workspace -->
+      <div id="workspaceCard" style="display: none;">
+        
+        <!-- File Details Card -->
+        <div class="file-list-card">
+          <div class="file-list-header">
+            <div class="file-list-title">Selected PDF Document</div>
+            <button type="button" class="btn-text-danger" id="changeFileBtn">Change File</button>
+          </div>
+          <div class="file-item">
+            <div class="file-item-info">
+              <div class="file-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </div>
+              <div class="file-item-meta">
+                <div class="file-name" id="selectedFileName">Document.pdf</div>
+                <div class="file-subtext" id="selectedFileMeta">Pages: calculating...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Options Card -->
+        <div class="options-card">
+          <div class="options-title">Image Export Settings</div>
+          <div class="options-grid">
+            <div class="form-group">
+              <label class="form-label" for="formatSelect">Image Format</label>
+              <select id="formatSelect" class="form-select">
+                <option value="image/png">PNG (Lossless, High Quality)</option>
+                <option value="image/jpeg">JPEG (Compressed, Smaller Size)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="scaleSelect">Image Resolution Scale</label>
+              <select id="scaleSelect" class="form-select">
+                <option value="1.5">Standard (150 DPI equivalent)</option>
+                <option value="2.0" selected>High Definition (200 DPI)</option>
+                <option value="3.0">Ultra Crisp (300 DPI)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="action-bar">
+            <button type="button" class="btn-primary-action" id="convertBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              Convert PDF to Images
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Progress Card -->
+      <div class="progress-card" id="progressCard">
+        <div class="spinner"></div>
+        <h3 class="progress-title" id="progressTitle">Rendering Pages to Images...</h3>
+        <p class="progress-desc" id="progressDesc">Rendering page canvas</p>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+
+      <!-- Result Card & Image Gallery -->
+      <div class="result-card" id="resultCard">
+        <div class="result-success-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2 class="result-title">Conversion Complete!</h2>
+        <p class="result-desc" id="resultMeta">All pages have been converted to images.</p>
+        
+        <div class="result-actions" style="margin-bottom: 2rem;">
+          <button type="button" class="btn-download" id="downloadAllBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download All Images
+          </button>
+          <button type="button" class="btn-secondary" id="resetBtn">Convert Another PDF</button>
+        </div>
+
+        <!-- Rendered Images Grid -->
+        <h3 style="font-size: 1.1rem; text-align: left; margin-bottom: 0.75rem;">Generated Page Images:</h3>
+        <div class="page-thumbnails-grid" id="galleryContainer" style="max-height: 550px;">
+          <!-- Dynamically populated converted images with individual download buttons -->
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <p>© 2026 PDF Tools. Client-side PDF to Image conversion powered by pdf.js.</p>
+        <a href="index.html" class="nav-link">Back to all tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="common.js"></script>
+  <script>
+    /**
+     * PDF to Images Client Logic
+     */
+    let selectedFile = null;
+    let pdfJsDoc = null;
+    let totalPageCount = 0;
+    const generatedImages = []; // { pageNum, blob, url, filename }
+
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const workspaceCard = document.getElementById('workspaceCard');
+    const selectedFileName = document.getElementById('selectedFileName');
+    const selectedFileMeta = document.getElementById('selectedFileMeta');
+    const formatSelect = document.getElementById('formatSelect');
+    const scaleSelect = document.getElementById('scaleSelect');
+    const convertBtn = document.getElementById('convertBtn');
+    const changeFileBtn = document.getElementById('changeFileBtn');
+    const progressCard = document.getElementById('progressCard');
+    const progressTitle = document.getElementById('progressTitle');
+    const progressDesc = document.getElementById('progressDesc');
+    const progressBarFill = document.getElementById('progressBarFill');
+    const resultCard = document.getElementById('resultCard');
+    const resultMeta = document.getElementById('resultMeta');
+    const galleryContainer = document.getElementById('galleryContainer');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    setupDropzone(dropzone, fileInput, async (files) => {
+      const file = files[0];
+      if (!file || (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf')) {
+        showToast('Please select a valid PDF file.', 'error');
+        return;
+      }
+      await loadPdf(file);
+    });
+
+    async function loadPdf(file) {
+      selectedFile = file;
+      dropzone.style.display = 'none';
+      workspaceCard.style.display = 'block';
+      selectedFileName.textContent = file.name;
+      selectedFileMeta.textContent = 'Reading pages...';
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        pdfJsDoc = await loadingTask.promise;
+        totalPageCount = pdfJsDoc.numPages;
+        selectedFileMeta.textContent = `Pages: ${totalPageCount} • Size: ${formatBytes(file.size)}`;
+      } catch (err) {
+        showToast('Error reading PDF: ' + err.message, 'error');
+        resetWorkspace();
+      }
+    }
+
+    convertBtn.addEventListener('click', async () => {
+      if (!pdfJsDoc) return;
+
+      workspaceCard.style.display = 'none';
+      progressCard.classList.add('active');
+      progressBarFill.style.width = '10%';
+      generatedImages.length = 0;
+      galleryContainer.innerHTML = '';
+
+      const mimeType = formatSelect.value;
+      const extension = mimeType === 'image/jpeg' ? 'jpg' : 'png';
+      const scale = parseFloat(scaleSelect.value);
+      const baseName = selectedFile.name.replace(/\.pdf$/i, '');
+
+      try {
+        for (let pageNum = 1; pageNum <= totalPageCount; pageNum++) {
+          progressTitle.textContent = `Rendering page ${pageNum} of ${totalPageCount}`;
+          progressBarFill.style.width = `${Math.round((pageNum / totalPageCount) * 85)}%`;
+
+          const page = await pdfJsDoc.getPage(pageNum);
+          const viewport = page.getViewport({ scale: scale });
+
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+
+          await page.render({
+            canvasContext: ctx,
+            viewport: viewport
+          }).promise;
+
+          // Convert canvas to blob
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, mimeType, 0.92));
+          const url = URL.createObjectURL(blob);
+          const filename = `${baseName}_page_${pageNum}.${extension}`;
+
+          generatedImages.push({
+            pageNum,
+            blob,
+            url,
+            filename
+          });
+        }
+
+        progressBarFill.style.width = '100%';
+
+        setTimeout(() => {
+          progressCard.classList.remove('active');
+          resultCard.classList.add('active');
+          resultMeta.textContent = `Rendered ${generatedImages.length} high-resolution image pages in ${extension.toUpperCase()} format.`;
+
+          // Build gallery
+          generatedImages.forEach(img => {
+            const card = document.createElement('div');
+            card.className = 'page-thumb-card';
+            card.innerHTML = `
+              <img src="${img.url}" alt="Page ${img.pageNum}">
+              <div class="page-badge">Page ${img.pageNum}</div>
+              <a href="${img.url}" download="${img.filename}" class="btn-action-small" style="margin-top: 0.5rem; width: 100%; text-decoration: none;" title="Download Page ${img.pageNum}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span style="font-size: 0.75rem; margin-left: 4px;">Save</span>
+              </a>
+            `;
+            galleryContainer.appendChild(card);
+          });
+
+          showToast('All pages converted to images!', 'success');
+        }, 300);
+
+      } catch (err) {
+        progressCard.classList.remove('active');
+        workspaceCard.style.display = 'block';
+        showToast('Error converting to images: ' + err.message, 'error');
+      }
+    });
+
+    // Download each image sequentially
+    downloadAllBtn.addEventListener('click', () => {
+      if (generatedImages.length === 0) return;
+      showToast(`Initiating download for ${generatedImages.length} images...`, 'info');
+      generatedImages.forEach((img, idx) => {
+        setTimeout(() => {
+          const a = document.createElement('a');
+          a.href = img.url;
+          a.download = img.filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }, idx * 250);
+      });
+    });
+
+    function resetWorkspace() {
+      selectedFile = null;
+      pdfJsDoc = null;
+      generatedImages.forEach(img => URL.revokeObjectURL(img.url));
+      generatedImages.length = 0;
+      workspaceCard.style.display = 'none';
+      progressCard.classList.remove('active');
+      resultCard.classList.remove('active');
+      dropzone.style.display = 'block';
+    }
+
+    changeFileBtn.addEventListener('click', resetWorkspace);
+    resetBtn.addEventListener('click', resetWorkspace);
+  </script>
+</body>
+</html>
